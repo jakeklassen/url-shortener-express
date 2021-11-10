@@ -1,17 +1,8 @@
 import { build } from '#app/app.js';
-import { container } from '#app/container.js';
-import { MongoClient } from 'mongodb';
+import { initializeContainer } from '#app/container.js';
 
-const papr = container.cradle.papr;
-
-const connection = await MongoClient.connect(
-  'mongodb://tantor:elephant@localhost:27017',
-);
-papr.initialize(connection.db('tantor'));
-
-await papr.updateSchemas();
-
-const app = build({
+const { app, container } = build({
+  container: await initializeContainer(),
   logger: true,
 });
 
@@ -35,7 +26,7 @@ const cleanup = async () => {
     );
   }
 
-  await connection.close();
+  await container.cradle.client.close();
 
   process.exit(0);
 };

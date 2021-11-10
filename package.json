@@ -12,7 +12,7 @@
     "watch": "tsc --watch",
     "start": "nodemon",
     "pretest": "yarn run build",
-    "test": "uvu -r tsm -i dist",
+    "test": "uvu -i src",
     "prod": "node ./dist"
   },
   "imports": {
@@ -55,11 +55,13 @@
     "expect": "^27.3.1",
     "get-port": "^6.0.0",
     "get-port-cli": "^3.0.0",
+    "jest": "^27.3.1",
     "nodemon": "^2.0.15",
     "prettier": "^2.0.5",
     "shx": "^0.3.2",
     "supertest": "^6.1.6",
     "tiny-glob": "^0.2.9",
+    "ts-mockito": "^2.6.1",
     "ts-node": "^10.4.0",
     "tsm": "^2.1.4",
     "uvu": "^0.5.2"
