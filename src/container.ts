@@ -1,7 +1,6 @@
-import { registerDatabaseConnection } from '#app/database.js';
-import { registerPapr } from '#app/papr.js';
-import awilix, { ModuleDescriptor } from 'awilix';
+import awilix, { asValue, Lifetime, ModuleDescriptor } from 'awilix';
 import { camelCase, pascalCase } from 'change-case';
+import { MongoClient } from 'mongodb';
 
 /**
  * App service container interface. When adding types, extend the interface.
@@ -14,34 +13,51 @@ import { camelCase, pascalCase } from 'change-case';
  * }
  * ```
  */
-export interface AppCradle {}
+export interface AppCradle {
+  name: string;
+}
 
 const container = awilix.createContainer<AppCradle>();
 
 export type AppContainer = awilix.AwilixContainer<AppCradle>;
 
 export const initializeContainer = async () => {
-  await registerDatabaseConnection(container);
-  await registerPapr(container);
+  await container.loadModules(
+    [
+      ['**/providers/*.js', { lifetime: Lifetime.SINGLETON }],
+      [
+        '**/providers/database.js',
+        {
+          lifetime: Lifetime.SINGLETON,
+          async dispose(database: AppCradle['database']) {
+            await database.then((client) => client.close());
+          },
+        },
+      ],
+      '**/*.model.js',
+      '**/*.router.js',
+    ],
+    {
+      esModules: true,
+      /**
+       * This method will determine the name in the container.
+       * We'll favour pascal case for things like models.
+       * The rest will be camel case.
+       * @param name
+       * @param descriptor
+       * @returns
+       */
+      formatName(name: string, descriptor: ModuleDescriptor): string {
+        // console.log(name, descriptor);
 
-  await container.loadModules(['**/*.model.js', '**/*.router.js'], {
-    esModules: true,
-    /**
-     * This method will determine the name in the container.
-     * We'll favour pascal case for things like models.
-     * The rest will be camel case.
-     * @param name
-     * @param descriptor
-     * @returns
-     */
-    formatName(name: string, descriptor: ModuleDescriptor): string {
-      if (name.endsWith('.model')) {
-        return pascalCase(name);
-      }
+        if (name.endsWith('.model')) {
+          return pascalCase(name);
+        }
 
-      return camelCase(name);
+        return camelCase(name);
+      },
     },
-  });
+  );
 
   return container;
 };

@@ -3,28 +3,21 @@ import { initializeContainer } from '#app/container.js';
 import { ShortUrl } from '#app/modules/short-url/short-url.model.js';
 import { asValue } from 'awilix';
 import { StatusCodes } from 'http-status-codes';
-import { ObjectId } from 'mongodb';
 import request from 'supertest';
-import { anything, instance, mock, when } from 'ts-mockito';
 import { suite } from 'uvu';
 
 const testContainer = await initializeContainer();
 
-const MockShortUrl: ShortUrl = mock<ShortUrl>();
-when(MockShortUrl.insertOne(anything())).thenResolve({
-  _id: new ObjectId(),
-  shortCode: 'test',
-  url: 'https://google.ca',
-  updatedAt: new Date(),
-  createdAt: new Date(),
-});
-
-const ShortUrlMock = instance(MockShortUrl);
-
 const shorturlSuite = suite('/api/shorturl');
 
 testContainer.register({
-  ShortUrlModel: asValue(ShortUrlMock),
+  ShortUrlModel: asValue(
+    Promise.resolve({
+      async insertOne() {
+        return {};
+      },
+    } as unknown as ShortUrl),
+  ),
 });
 
 const { app, container } = build({
@@ -46,7 +39,7 @@ shorturlSuite('should return a valid response', async () => {
 });
 
 shorturlSuite.after(async () => {
-  await container.cradle.client.close();
+  await container.dispose();
 });
 
 shorturlSuite.run();

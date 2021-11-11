@@ -26,7 +26,8 @@ const cleanup = async () => {
     );
   }
 
-  await container.cradle.client.close();
+  // await container.cradle.database.then((db) => db.close());
+  await container.dispose();
 
   process.exit(0);
 };
@@ -37,5 +38,9 @@ process.on('SIGINT', async () => {
 });
 
 process.on('SIGTERM', async () => {
+  await cleanup();
+});
+
+process.on('SIGUSR2', async () => {
   await cleanup();
 });

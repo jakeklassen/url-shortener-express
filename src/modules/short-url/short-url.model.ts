@@ -1,8 +1,9 @@
+import { AppCradle } from '#app/container.js';
 import Papr, { Model, schema, types } from 'papr';
 
 declare module '#app/container.js' {
   interface AppCradle {
-    ShortUrlModel: ShortUrl;
+    ShortUrlModel: Promise<ShortUrl>;
   }
 }
 
@@ -28,7 +29,11 @@ export type ShortUrl = Model<
   typeof shortUrlSchema[1]
 >;
 
-export const registerShortUrlModel = ({ papr }: { papr: Papr }) => {
+export const registerShortUrlModel = async ({
+  papr: paprResource,
+}: AppCradle) => {
+  const papr = await paprResource;
+
   const ShortUrl = papr.model('shortUrls', shortUrlSchema);
 
   return ShortUrl;
