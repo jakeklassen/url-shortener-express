@@ -13,8 +13,6 @@ jobs:
         env:
           MONGO_INITDB_ROOT_USERNAME: tantor
           MONGO_INITDB_ROOT_PASSWORD: elephant
-          MONGO_URL: mongodb://tantor:elephant@mongo:27017/tantor-test?authSource=admin
-          MONGO_DB: tantor-test
 
     steps:
       - name: Check out repository code
@@ -30,3 +28,6 @@ jobs:
 
       - name: Test
         run: yarn test
+        env:
+          MONGO_URL: mongodb://tantor:elephant@mongo:27017/tantor-test?authSource=admin
+          MONGO_DB: tantor-test

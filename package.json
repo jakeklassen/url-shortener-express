@@ -14,7 +14,8 @@
     "prepare": "ts-patch install -s",
     "pretest": "yarn run build",
     "test": "node -r dotenv/config node_modules/uvu/bin.js -i src --bail dotenv_config_path=.env.test",
-    "prod": "node ./dist"
+    "prod": "node ./dist",
+    "typecheck": "tsc"
   },
   "imports": {
     "#app/*": [
