@@ -13,7 +13,7 @@
     "start": "nodemon",
     "prepare": "ts-patch install -s",
     "pretest": "yarn run build",
-    "test": "uvu -i src",
+    "test": "uvu -i src --bail",
     "prod": "node ./dist"
   },
   "imports": {
