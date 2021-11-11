@@ -1,6 +1,5 @@
-import awilix, { asValue, Lifetime, ModuleDescriptor } from 'awilix';
+import awilix, { Lifetime, ModuleDescriptor } from 'awilix';
 import { camelCase, pascalCase } from 'change-case';
-import { MongoClient } from 'mongodb';
 
 /**
  * App service container interface. When adding types, extend the interface.

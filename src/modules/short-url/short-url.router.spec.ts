@@ -5,24 +5,31 @@ import { asValue } from 'awilix';
 import { StatusCodes } from 'http-status-codes';
 import request from 'supertest';
 import { suite } from 'uvu';
+import * as assert from 'uvu/assert';
 
 const testContainer = await initializeContainer();
 
-const shorturlSuite = suite('/api/shorturl');
+// REGISTER mocks
+// testContainer.register({
+//   ShortUrlModel: asValue(
+//     Promise.resolve({
+//       async insertOne() {
+//         return {};
+//       },
+//     } as unknown as ShortUrl),
+//   ),
+// });
 
-testContainer.register({
-  ShortUrlModel: asValue(
-    Promise.resolve({
-      async insertOne() {
-        return {};
-      },
-    } as unknown as ShortUrl),
-  ),
-});
+const shorturlSuite = suite('/api/shorturl');
 
 const { app, container } = build({
   container: testContainer,
   logger: false,
+});
+
+shorturlSuite.before(async () => {
+  const ShortUrl = await container.cradle.ShortUrlModel;
+  await ShortUrl.deleteMany({});
 });
 
 shorturlSuite('should return Bad Request', async () => {
@@ -36,9 +43,17 @@ shorturlSuite('should return a valid response', async () => {
       url: 'https://google.ca',
     })
     .expect(StatusCodes.OK);
+
+  const ShortUrl = await container.cradle.ShortUrlModel;
+  const count = await ShortUrl.countDocuments({});
+
+  assert.is(count, 1);
 });
 
 shorturlSuite.after(async () => {
+  const client = await container.cradle.database;
+  await client.db(container.cradle.config.get('mongoDb')).dropDatabase();
+
   await container.dispose();
 });
 

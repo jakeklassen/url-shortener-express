@@ -7,16 +7,16 @@ declare module '#app/container.js' {
   }
 }
 
-export const registerPapr = async ({ database }: AppCradle) => {
+export const resolvePapr = async ({ config, database }: AppCradle) => {
   const client = await database;
 
   const papr = new Papr();
 
-  papr.initialize(client.db('tantor'));
+  papr.initialize(client.db(config.get('mongoDb')));
 
   await papr.updateSchemas();
 
   return papr;
 };
 
-export default registerPapr;
+export default resolvePapr;

@@ -13,7 +13,7 @@
     "start": "nodemon",
     "prepare": "ts-patch install -s",
     "pretest": "yarn run build",
-    "test": "uvu -i src --bail",
+    "test": "node -r dotenv/config node_modules/uvu/bin.js -i src --bail dotenv_config_path=.env.test",
     "prod": "node ./dist"
   },
   "imports": {
@@ -53,6 +53,7 @@
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "clipboardy": "^3.0.0",
+    "dotenv": "^10.0.0",
     "esbuild": "^0.13.13",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.1.0",

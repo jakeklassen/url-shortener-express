@@ -1,3 +1,4 @@
+import { AppCradle } from '#app/container.js';
 import { MongoClient } from 'mongodb';
 
 declare module '#app/container.js' {
@@ -6,12 +7,10 @@ declare module '#app/container.js' {
   }
 }
 
-export const registerDatabaseConnection = async () => {
-  const client = await MongoClient.connect(
-    'mongodb://tantor:elephant@localhost:27017',
-  );
+export const resolveDatabaseConnection = async ({ config }: AppCradle) => {
+  const client = await MongoClient.connect(config.get('mongoUrl'));
 
   return client;
 };
 
-export default registerDatabaseConnection;
+export default resolveDatabaseConnection;
