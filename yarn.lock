@@ -760,12 +760,12 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
-"@types/pino-http@^5.8.0":
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/@types/pino-http/-/pino-http-5.8.0.tgz#38270516872ebc2f3a0421eaf285b6e376d80802"
-  integrity sha512-/gKFhkzVotTl61mMacH5qptjBOGGqZyVXCRhDDVPg76JdmYYO0bftZV0lcAY7sAzCCZQciTsGdQcv0/B1X3C9Q==
+"@types/pino-http@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@types/pino-http/-/pino-http-5.8.1.tgz#ebb194750ad2f9245c3028b5d2c4e6d64f685ba9"
+  integrity sha512-A9MW6VCnx5ii7s+Fs5aFIw+aSZcBCpsZ/atpxamu8tTsvWFacxSf2Hrn1Ohn1jkVRB/LiPGOapRXcFawDBnDnA==
   dependencies:
-    "@types/pino" "*"
+    "@types/pino" "6.3"
 
 "@types/pino-pretty@*":
   version "4.7.1"
@@ -781,7 +781,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/pino@*":
+"@types/pino@*", "@types/pino@6.3":
   version "6.3.12"
   resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.12.tgz#4425db6ced806109c3df957100cba9dfcd73c228"
   integrity sha512-dsLRTq8/4UtVSpJgl9aeqHvbh6pzdmjYD3C092SYgLD2TyoCqHpTJk6vp8DvCTGGc7iowZ2MoiYiVUUCcu7muw==
