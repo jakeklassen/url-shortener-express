@@ -1,5 +1,5 @@
 import { AppCradle } from '#app/container.js';
-import Papr, { Model, schema, types } from 'papr';
+import { Model, schema, types } from 'papr';
 
 declare module '#app/container.js' {
   interface AppCradle {
